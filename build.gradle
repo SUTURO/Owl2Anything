@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+}
+
+group 'com.malte3d.suturo'
+version '1.0.0'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+def mainClassName = 'com.malte3d.suturo.knowledge.owl2anything.Owl2Anything'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    commons_cli_version = "1.5.0"
+    commons_csv_version = "1.10.0"
+    junit_version = "5.8.1"
+    log4j_version = "2.20.0"
+    lombok_version = "1.18.26"
+    sl4j_version = "2.0.7"
+    owlapi_version = "5.5.0"
+}
+
+dependencies {
+
+    implementation "net.sourceforge.owlapi:owlapi-api:${owlapi_version}"
+    implementation "net.sourceforge.owlapi:owlapi-apibinding:${owlapi_version}"
+
+    implementation "commons-cli:commons-cli:${commons_cli_version}"
+    implementation "org.apache.commons:commons-csv:${commons_csv_version}"
+
+    implementation "org.slf4j:slf4j-api:${sl4j_version}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+
+    compileOnly "org.projectlombok:lombok:${lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombok_version}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+distZip.shouldRunAfter(build)
+
+jar {
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+        attributes 'Class-Path': configurations.runtimeClasspath.files.collect { "lib/$it.name" }.join(' ')
+    }
+
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+}
