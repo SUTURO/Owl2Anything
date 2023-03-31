@@ -9,35 +9,36 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
-import org.checkerframework.checker.units.qual.N;
 
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * A utility class for parsing a CSV file containing IRIs and their corresponding namespaces shortform and returning a Map of IRI to IRI namespace shortform.
+ */
 @Slf4j
 @Value
 public class IriNamespacesParser {
 
-    private static final String[] CSV_HEADER = {
-            "iri",
-            "namespace"
-    };
+    private static final String[] CSV_HEADER = {"iri", "namespace"};
 
-    private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.builder()
-            .setDelimiter(';')
-            .setHeader(CSV_HEADER)
-            .build();
+    private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.builder().setDelimiter(';').setHeader(CSV_HEADER).build();
 
-    public Map<String, String> getIriNamespaces(@NonNull String iriNamespacesFile) {
+    /**
+     * Reads a CSV file containing IRIs and their corresponding namespaces and returns a Map of the IRIs and namespaces.
+     *
+     * @param iriNamespacesFile The path of the CSV file containing IRIs and namespaces.
+     * @return A Map of the IRIs and namespaces.
+     * @throws IllegalArgumentException If the specified file is invalid or cannot be read.
+     */
+    public static Map<String, String> getIriNamespaces(@NonNull String iriNamespacesFile) {
 
         try {
 
             InputStreamReader fileReader = new InputStreamReader(new FileInputStream(iriNamespacesFile), StandardCharsets.UTF_8);
 
-            return CSV_FORMAT.parse(fileReader).getRecords()
-                    .stream()
-                    .collect(Collectors.toMap(csvRecord -> csvRecord.get(CSV_HEADER[0]), csvRecord -> csvRecord.get(CSV_HEADER[1])));
+            return CSV_FORMAT.parse(fileReader).getRecords().stream().collect(Collectors.toMap(csvRecord -> csvRecord.get(CSV_HEADER[0]), csvRecord -> csvRecord.get(CSV_HEADER[1])));
 
         } catch (FileNotFoundException e) {
             log.error("IRI namespaces file not found: {}", iriNamespacesFile);

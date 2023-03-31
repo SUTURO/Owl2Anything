@@ -15,16 +15,19 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Utility class to create a suturo_objects.csv
+ */
 @Slf4j
 @UtilityClass
 public class SuturoObjectsCsvPrinter {
 
     private static final String[] CSV_HEADER = {
-            "IRI Name",
+            "Name",
             "IRI ShortForm",
             "IRI Namespace",
             "Description",
-            "Perception ID"
+            "Perception Id"
     };
 
     private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.builder()

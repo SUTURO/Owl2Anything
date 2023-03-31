@@ -43,29 +43,24 @@ public class OwlConverter {
 
     private static final Pattern LINE_BREAKS = Pattern.compile("[\\r\\n]+");
 
-    private final String              iriRoot;
+    private final String iriRoot;
     private final Map<String, String> iriMapping;
     private final Map<String, String> iriNamespaces;
 
-    private final OWLOntology      ontology;
+    private final OWLOntology ontology;
     private final Set<OWLOntology> allOntologies;
 
     @Builder
-    public OwlConverter(
-            @NonNull String ontologyFilePath,
-            @NonNull String iriRoot,
-            @NonNull Optional<String> iriMappingFile,
-            @NonNull Optional<String> iriNamespacesFile) {
+    public OwlConverter(@NonNull String ontologyFilePath, @NonNull String iriRoot, @NonNull Optional<String> iriMappingFile, @NonNull Optional<String> iriNamespacesFile) {
 
         this.iriRoot = iriRoot;
 
         if (iriMappingFile.isPresent())
-            this.iriMapping = new IriMappingParser().getIriMapping(iriMappingFile.get());
+            this.iriMapping = IriMappingParser.getIriMapping(iriMappingFile.get());
         else
             this.iriMapping = Collections.emptyMap();
 
-        if (iriNamespacesFile.isPresent())
-            this.iriNamespaces = new IriNamespacesParser().getIriNamespaces(iriNamespacesFile.get());
+        if (iriNamespacesFile.isPresent()) this.iriNamespaces = IriNamespacesParser.getIriNamespaces(iriNamespacesFile.get());
         else
             this.iriNamespaces = Collections.emptyMap();
 
@@ -86,6 +81,11 @@ public class OwlConverter {
 
     }
 
+    /**
+     * Extracts and builds a list of {@link OwlRecord} from the given {@link #ontology}
+     *
+     * @return List of all {@link OwlRecord}, that are a subclass of {@link #iriRoot}
+     */
     public List<OwlRecord> extractRecords() {
 
         OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
@@ -95,9 +95,9 @@ public class OwlConverter {
         OWLClass rootClass = ontology.getOWLOntologyManager().getOWLDataFactory().getOWLClass(IRI.create(iriRoot));
         Set<OWLClass> subclasses = reasoner.getSubClasses(rootClass, false).getFlattened();
 
-        List<OwlRecord> classes = new ArrayList<>(subclasses.size());
+        List<OwlRecord> owlRecords = new ArrayList<>(subclasses.size());
 
-        /* Extract the values from the ontology */
+        /* Extract the relevant values from the ontology */
         for (OWLClass owlClass : subclasses) {
 
             String iriName = owlClass.getIRI().getShortForm();
@@ -117,16 +117,22 @@ public class OwlConverter {
                     .perceptionId(perceptionId)
                     .build();
 
-            classes.add(owlRecord);
+            owlRecords.add(owlRecord);
         }
 
-        classes.sort(OwlRecord::compareTo);
+        /* Sort the records lexicographically */
+        owlRecords.sort(OwlRecord::compareTo);
 
         reasoner.dispose();
 
-        return classes;
+        return owlRecords;
     }
 
+    /**
+     * Extracts the perception id from the annotation "suturo:perceptionId"
+     *
+     * @return The pereception id or null
+     */
     private String extractPerceptionId(OWLClass owlClass) {
 
         OWLAnnotationPropertyImpl idAnnotationProperty = new OWLAnnotationPropertyImpl(IRI.create("http://www.ease-crc.org/ont/SUTURO.owl#perceptionId"));
@@ -138,6 +144,11 @@ public class OwlConverter {
                 .orElse(null);
     }
 
+    /**
+     * Extracts the natural name from the annotation "rdfs:label"
+     *
+     * @return The label if present, else the class name
+     */
     private String extractNaturalName(OWLClass owlClass) {
 
         OWLAnnotationPropertyImpl labelAnnotationProperty = new OWLAnnotationPropertyImpl(IRI.create("http://www.w3.org/2000/01/rdf-schema#label"));
@@ -151,6 +162,11 @@ public class OwlConverter {
         return removeLineBreaks(naturalName);
     }
 
+    /**
+     * Extracts the longest description from the annotation "rdfs:comment"
+     *
+     * @return The description if present, else the class name
+     */
     private String extractDescription(OWLClass owlClass) {
 
         OWLAnnotationPropertyImpl commentAnnotationProperty = new OWLAnnotationPropertyImpl(IRI.create("http://www.w3.org/2000/01/rdf-schema#comment"));
@@ -166,6 +182,9 @@ public class OwlConverter {
         return removeLineBreaks(description);
     }
 
+    /**
+     * Comparator to compare {@link OWLLiteral} by their length
+     */
     private static Comparator<OWLAnnotationValue> literalLengthComparator() {
 
         return (a, b) -> {
@@ -177,6 +196,11 @@ public class OwlConverter {
         };
     }
 
+    /**
+     * Replaces all linebreaks in the given text by a whitespace
+     *
+     * @return String without line breaks
+     */
     private static String removeLineBreaks(String text) {
         return LINE_BREAKS.matcher(text).replaceAll(" ");
     }
@@ -202,8 +226,6 @@ public class OwlConverter {
     }
 
     private static OWLOntologyLoaderConfiguration createOntologyLoaderConfiguration() {
-
-        return new OWLOntologyLoaderConfiguration()
-                .setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
+        return new OWLOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
     }
 }

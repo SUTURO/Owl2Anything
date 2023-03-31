@@ -13,6 +13,9 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Utility class to create a txt file for the CRAM object list
+ */
 @Slf4j
 @UtilityClass
 public class CramObjectListPrinter {

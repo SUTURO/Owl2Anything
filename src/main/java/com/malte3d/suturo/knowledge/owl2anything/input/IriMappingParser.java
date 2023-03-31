@@ -12,10 +12,14 @@ import org.apache.commons.csv.CSVFormat;
 
 import lombok.NonNull;
 import lombok.Value;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * A utility class for parsing a CSV file containing IRI replacement mappings and returning a Map of IRI original to IRI replacement.
+ */
 @Slf4j
-@Value
+@UtilityClass
 public class IriMappingParser {
 
     private static final String[] CSV_HEADER = {
@@ -28,7 +32,14 @@ public class IriMappingParser {
             .setHeader(CSV_HEADER)
             .build();
 
-    public Map<String, String> getIriMapping(@NonNull String iriMappingFile) {
+    /**
+     * Parses the given IRI mapping file and returns a Map of IRI original to IRI replacement.
+     *
+     * @param iriMappingFile The file path of the CSV file containing the IRI mappings
+     * @return A Map of IRI original to IRI replacement
+     * @throws IllegalArgumentException if the IRI mapping file is invalid
+     */
+    public static Map<String, String> getIriMapping(@NonNull String iriMappingFile) {
 
         try {
 

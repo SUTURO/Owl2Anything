@@ -17,6 +17,9 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Utility class to create a YOLO obj.names file for the SUTURO perception group
+ */
 @Slf4j
 @UtilityClass
 public class YoloObjNamesPrinter {

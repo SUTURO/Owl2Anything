@@ -13,6 +13,10 @@ import com.malte3d.suturo.knowledge.owl2anything.output.YoloObjNamesPrinter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The {@link Owl2Anything} class provides a main method that extracts data from an OWL ontology file and outputs it in various formats such as CSV, JSON, and
+ * text files.
+ */
 @Slf4j
 @UtilityClass
 public class Owl2Anything {

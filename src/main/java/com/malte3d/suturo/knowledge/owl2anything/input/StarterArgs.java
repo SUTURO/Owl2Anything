@@ -13,6 +13,9 @@ import org.apache.commons.cli.ParseException;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Parses and defines the cli arguments
+ */
 @Slf4j
 @Value
 public class StarterArgs {
