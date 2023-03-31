@@ -21,13 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 public class Owl2Anything {
 
+    private static final String OUTPUT_DIR = "owl2anything";
+
     public static void main(String[] args) {
 
         StarterArgs starterArgs = new StarterArgs(args);
 
-
         OwlConverter owlConverter = OwlConverter.builder()
-                .ontologyFilePath(starterArgs.getOntologyFile())
+                .ontologyFile(starterArgs.getOntologyFile())
                 .iriRoot(starterArgs.getIriRoot())
                 .iriMappingFile(starterArgs.getIriMappingFile())
                 .iriNamespacesFile(starterArgs.getIriNamespacesFile())
@@ -35,9 +36,9 @@ public class Owl2Anything {
 
         List<OwlRecord> owlRecords = owlConverter.extractRecords();
 
-        log.info("Extracted {} records", owlRecords.size());
+        log.info("Extracted {} OwlRecords", owlRecords.size());
 
-        File outputDir = new File("owl2anything");
+        File outputDir = new File(OUTPUT_DIR);
         outputDir.mkdirs();
 
         SuturoObjectsCsvPrinter.print(owlRecords, new File(outputDir, "suturo_objects.csv"));

@@ -45,6 +45,9 @@ public class YoloObjNamesPrinter {
                         owlRecord.getIriShortForm()
                 );
             }
+
+            log.info("Successfully created {}", outputFile.getName());
+
         } catch (IOException e) {
             log.error("Error while writing the YOLO obj.name file", e);
         }

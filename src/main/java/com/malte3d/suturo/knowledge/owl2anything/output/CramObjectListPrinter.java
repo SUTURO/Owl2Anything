@@ -34,6 +34,8 @@ public class CramObjectListPrinter {
 
             writer.append(generateCramObjectListString(perceptionClasses));
 
+            log.info("Successfully created {}", outputFile.getName());
+
         } catch (IOException e) {
             log.error("Error while writing the Cram Object Names file", e);
         }

@@ -10,12 +10,13 @@ plugins {
 apply from: 'versions.gradle'
 
 group 'com.malte3d.suturo'
-version '1.0.1'
+version '1.0.2'
 
 sourceCompatibility = 17
 targetCompatibility = 17
 
 def mainClassName = 'com.malte3d.suturo.knowledge.owl2anything.Owl2Anything'
+def outputDirName = 'owl2anything'
 
 repositories {
     mavenCentral()
@@ -63,13 +64,7 @@ distributions {
 
     main {
         contents {
-
             from "${project.buildDir}/license-report"
-
-            into("owl2anything") {
-                from "${project.rootDir}/owl2anything/iri_mapping.csv"
-                from "${project.rootDir}/owl2anything/iri_namespaces.csv"
-            }
         }
     }
 }
@@ -91,4 +86,8 @@ licenseReport {
 
     filters = [new LicenseBundleNormalizer(bundlePath: "${project.rootDir}/dependency-license-bundle.json")]
     renderers = [new InventoryHtmlReportRenderer('dependency-license-report.html')]
+}
+
+clean {
+    delete "${project.rootDir}/${outputDirName}"
 }

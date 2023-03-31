@@ -1,5 +1,6 @@
 package com.malte3d.suturo.knowledge.owl2anything.input;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class IriMappingParser {
      * @return A Map of IRI original to IRI replacement
      * @throws IllegalArgumentException if the IRI mapping file is invalid
      */
-    public static Map<String, String> getIriMapping(@NonNull String iriMappingFile) {
+    public static Map<String, String> getIriMapping(@NonNull File iriMappingFile) {
 
         try {
 
@@ -50,11 +51,11 @@ public class IriMappingParser {
                     .collect(Collectors.toMap(csvRecord -> csvRecord.get(CSV_HEADER[0]), csvRecord -> csvRecord.get(CSV_HEADER[1])));
 
         } catch (FileNotFoundException e) {
-            log.error("IRI mapping file not found: {}", iriMappingFile);
+            log.error("IRI mapping file not found: {}", iriMappingFile.getPath());
         } catch (IOException e) {
-            log.error("Error reading IRI mapping file: {}", iriMappingFile);
+            log.error("Error reading IRI mapping file: {}", iriMappingFile.getPath());
         }
 
-        throw new IllegalArgumentException("Invalid IRI mapping file: " + iriMappingFile);
+        throw new IllegalArgumentException("Invalid IRI mapping file: " + iriMappingFile.getPath());
     }
 }

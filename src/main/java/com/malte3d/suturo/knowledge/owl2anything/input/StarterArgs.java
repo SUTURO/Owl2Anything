@@ -1,5 +1,9 @@
 package com.malte3d.suturo.knowledge.owl2anything.input;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.cli.CommandLine;
@@ -20,15 +24,17 @@ import lombok.extern.slf4j.Slf4j;
 @Value
 public class StarterArgs {
 
-    static final String ARG_ONTOLOGY_FILE = "input";
-    static final String ARG_ROOT_IRI = "root";
-    static final String ARG_IRI_MAPPING_FILE = "mapping";
-    static final String ARG_IRI_NAMESPACES_FILE = "namespaces";
+    private static final String OUTPUT_DIR = "owl2anything";
 
-    String ontologyFile;
+    private static final String ARG_ONTOLOGY_FILE       = "input";
+    private static final String ARG_ROOT_IRI            = "root";
+    private static final String ARG_IRI_MAPPING_FILE    = "mapping";
+    private static final String ARG_IRI_NAMESPACES_FILE = "namespaces";
+
+    File   ontologyFile;
     String iriRoot;
-    String iriMappingFile;
-    String iriNamespacesFile;
+    File   iriMappingFile;
+    File   iriNamespacesFile;
 
     public StarterArgs(String[] args) {
 
@@ -76,10 +82,18 @@ public class StarterArgs {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
 
-            ontologyFile = cmd.getOptionValue(ARG_ONTOLOGY_FILE);
+            ontologyFile = new File(cmd.getOptionValue(ARG_ONTOLOGY_FILE));
             iriRoot = cmd.getOptionValue(ARG_ROOT_IRI);
-            iriMappingFile = cmd.getOptionValue(ARG_IRI_MAPPING_FILE, "owl2anything/iri_mapping.csv");
-            iriNamespacesFile = cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE, "owl2anything/iri_namespaces.csv");
+
+            if (cmd.hasOption(ARG_IRI_MAPPING_FILE))
+                iriMappingFile = new File(cmd.getOptionValue(ARG_IRI_MAPPING_FILE));
+            else
+                iriMappingFile = new File(Objects.requireNonNull(StarterArgs.class.getResource("iri_mapping_default.csv")).toURI());
+
+            if (cmd.hasOption(ARG_IRI_NAMESPACES_FILE))
+                iriNamespacesFile = new File(cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE));
+            else
+                iriNamespacesFile = new File(Objects.requireNonNull(StarterArgs.class.getResource("iri_namespaces_default.csv")).toURI());
 
         } catch (ParseException e) {
 
@@ -87,6 +101,9 @@ public class StarterArgs {
             formatter.printHelp("Owl2Anything Converter", options);
 
             throw new IllegalStateException("Error while parsing the command line arguments", e);
+
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("Unable to load default iri mapping files", e);
         }
     }
 

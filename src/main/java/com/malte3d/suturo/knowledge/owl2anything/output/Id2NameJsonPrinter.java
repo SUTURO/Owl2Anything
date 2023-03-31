@@ -45,6 +45,8 @@ public class Id2NameJsonPrinter {
 
             writer.append(GSON.toJson(perceptionNames));
 
+            log.info("Successfully created {}", outputFile.getName());
+
         } catch (IOException e) {
             log.error("Error while writing the Id2Name JSON file", e);
         }

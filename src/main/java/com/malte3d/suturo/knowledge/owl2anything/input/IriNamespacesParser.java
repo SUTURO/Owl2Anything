@@ -1,5 +1,6 @@
 package com.malte3d.suturo.knowledge.owl2anything.input;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class IriNamespacesParser {
      * @return A Map of the IRIs and namespaces.
      * @throws IllegalArgumentException If the specified file is invalid or cannot be read.
      */
-    public static Map<String, String> getIriNamespaces(@NonNull String iriNamespacesFile) {
+    public static Map<String, String> getIriNamespaces(@NonNull File iriNamespacesFile) {
 
         try {
 
@@ -41,11 +42,11 @@ public class IriNamespacesParser {
             return CSV_FORMAT.parse(fileReader).getRecords().stream().collect(Collectors.toMap(csvRecord -> csvRecord.get(CSV_HEADER[0]), csvRecord -> csvRecord.get(CSV_HEADER[1])));
 
         } catch (FileNotFoundException e) {
-            log.error("IRI namespaces file not found: {}", iriNamespacesFile);
+            log.error("IRI namespaces file not found: {}", iriNamespacesFile.getPath());
         } catch (IOException e) {
-            log.error("Error reading IRI namespaces file: {}", iriNamespacesFile);
+            log.error("Error reading IRI namespaces file: {}", iriNamespacesFile.getPath());
         }
 
-        throw new IllegalArgumentException("Invalid IRI namespaces file: " + iriNamespacesFile);
+        throw new IllegalArgumentException("Invalid IRI namespaces file: " + iriNamespacesFile.getPath());
     }
 }

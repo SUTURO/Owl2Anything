@@ -51,24 +51,22 @@ public class OwlConverter {
     private final Set<OWLOntology> allOntologies;
 
     @Builder
-    public OwlConverter(@NonNull String ontologyFilePath, @NonNull String iriRoot, @NonNull String iriMappingFile, @NonNull String iriNamespacesFile) {
+    public OwlConverter(@NonNull File ontologyFile, @NonNull String iriRoot, @NonNull File iriMappingFile, @NonNull File iriNamespacesFile) {
 
         this.iriRoot = iriRoot;
         this.iriMapping = IriMappingParser.getIriMapping(iriMappingFile);
         this.iriNamespaces = IriNamespacesParser.getIriNamespaces(iriNamespacesFile);
-
-        File file = new File(ontologyFilePath);
 
         OWLOntologyManager manager = createOntologyManager();
         OWLOntologyLoaderConfiguration config = createOntologyLoaderConfiguration();
 
         try {
 
-            this.ontology = manager.loadOntologyFromOntologyDocument(new FileDocumentSource(file), config);
+            this.ontology = manager.loadOntologyFromOntologyDocument(new FileDocumentSource(ontologyFile), config);
             this.allOntologies = manager.getOntologies();
 
         } catch (OWLOntologyCreationException e) {
-            log.error("Error while loading the ontology {}", ontologyFilePath, e);
+            log.error("Error while loading the ontology {}", ontologyFile.getPath(), e);
             throw new IllegalStateException(e);
         }
 

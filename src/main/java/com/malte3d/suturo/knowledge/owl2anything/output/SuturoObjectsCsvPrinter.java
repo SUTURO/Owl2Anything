@@ -49,6 +49,9 @@ public class SuturoObjectsCsvPrinter {
                         owlRecord.getDescription()
                 );
             }
+
+            log.info("Successfully created {}", outputFile.getName());
+
         } catch (IOException e) {
            log.error("Error while writing the Suturo Objects CSV file", e);
         }
