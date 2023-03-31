@@ -25,6 +25,7 @@ public class Id2NameJsonPrinter {
 
     private static final Gson GSON = new Gson().newBuilder()
             .enableComplexMapKeySerialization()
+            .disableHtmlEscaping()
             .setPrettyPrinting()
             .create();
 
