@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import lombok.NonNull;
@@ -19,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @UtilityClass
 public class CramObjectListPrinter {
+
+    private static final Pattern SINGLE_QUOTE = Pattern.compile("'");
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
@@ -50,7 +53,7 @@ public class CramObjectListPrinter {
 
             OwlRecord owlRecord = perceptionClasses.get(i);
 
-            sb.append("\"").append(owlRecord.getIriShortForm()).append("\"");
+            sb.append("'").append(escapeSingleQuotes(owlRecord.getIriShortForm())).append("'");
 
             if (i < perceptionClasses.size() - 1)
                 sb.append(", ");
@@ -59,5 +62,9 @@ public class CramObjectListPrinter {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    private static String escapeSingleQuotes(String literal) {
+        return SINGLE_QUOTE.matcher(literal).replaceAll("\\\\'");
     }
 }
