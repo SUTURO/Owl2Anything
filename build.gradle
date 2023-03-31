@@ -1,9 +1,13 @@
+import com.github.jk1.license.render.InventoryHtmlReportRenderer
+import com.github.jk1.license.filter.LicenseBundleNormalizer
+
 plugins {
     id 'java'
     id 'java-library-distribution'
+    id 'com.github.jk1.dependency-license-report' version '2.0'
 }
 
-apply from : 'versions.gradle'
+apply from: 'versions.gradle'
 
 group 'com.malte3d.suturo'
 version '1.0.0'
@@ -52,6 +56,34 @@ jar {
     }
 
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    from "LICENSE"
 }
 
-distZip.dependsOn jar
+distributions {
+
+    main {
+        distributionBaseName = 'owl2anything'
+        contents {
+            from "${project.buildDir}/license-report"
+        }
+    }
+}
+
+distZip.dependsOn generateLicenseReport
+
+licenseReport {
+
+    outputDir = "${project.buildDir}/license-report/licenses"
+
+    projects = [project] + project.subprojects
+
+    configurations = ['runtimeClasspath']
+
+    excludeGroups = []
+    excludes = []
+    excludeOwnGroup = true
+    excludeBoms = true
+
+    filters = [new LicenseBundleNormalizer(bundlePath: "${project.rootDir}/license-normalizer-bundle.json")]
+    renderers = [new InventoryHtmlReportRenderer('dependency-license-report.html')]
+}
