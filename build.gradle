@@ -10,7 +10,7 @@ plugins {
 apply from: 'versions.gradle'
 
 group 'com.malte3d.suturo'
-version '1.0.0'
+version '1.0.1'
 
 sourceCompatibility = 17
 targetCompatibility = 17
@@ -65,6 +65,8 @@ distributions {
         distributionBaseName = 'owl2anything'
         contents {
             from "${project.buildDir}/license-report"
+            from "${project.rootDir}/owl2anything/iri_mapping.csv"
+            from "${project.rootDir}/owl2anything/iri_namespaces.csv"
         }
     }
 }

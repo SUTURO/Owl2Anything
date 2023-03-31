@@ -23,8 +23,8 @@ The options are described below:
 
 - `-i`, `--input`: Path to the input ontology file in OWL format (required).
 - `-r`, `--root`: IRI of the root class. Every sublass of this IRI will be exported. (required).
-- `-m`, `--mapping`: Path to the IRI mapping file (optional).
-- `-n`, `--namespaces`: Path to the IRI namespaces file (optional).
+- `-m`, `--mapping`: Path to the IRI mapping file (optional). If not specified, the default SUTURO IRI mapping will be used.
+- `-n`, `--namespaces`: Path to the IRI namespaces file (optional). If not specified, the default SUTURO IRI namespaces will be used.
 
 The IRI mapping file is a CSV file that maps (invalid) ontology IRIs to replacements. The file should have the
 following format:

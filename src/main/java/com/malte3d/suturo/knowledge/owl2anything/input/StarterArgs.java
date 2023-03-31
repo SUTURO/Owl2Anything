@@ -20,15 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 @Value
 public class StarterArgs {
 
-    static final String ARG_ONTOLOGY_FILE       = "input";
-    static final String ARG_ROOT_IRI            = "root";
-    static final String ARG_IRI_MAPPING_FILE    = "mapping";
+    static final String ARG_ONTOLOGY_FILE = "input";
+    static final String ARG_ROOT_IRI = "root";
+    static final String ARG_IRI_MAPPING_FILE = "mapping";
     static final String ARG_IRI_NAMESPACES_FILE = "namespaces";
 
-    String           ontologyFile;
-    String           iriRoot;
-    Optional<String> iriMappingFile;
-    Optional<String> iriNamespacesFile;
+    String ontologyFile;
+    String iriRoot;
+    String iriMappingFile;
+    String iriNamespacesFile;
 
     public StarterArgs(String[] args) {
 
@@ -78,8 +78,8 @@ public class StarterArgs {
 
             ontologyFile = cmd.getOptionValue(ARG_ONTOLOGY_FILE);
             iriRoot = cmd.getOptionValue(ARG_ROOT_IRI);
-            iriMappingFile = Optional.ofNullable(cmd.getOptionValue(ARG_IRI_MAPPING_FILE));
-            iriNamespacesFile = Optional.ofNullable(cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE));
+            iriMappingFile = cmd.getOptionValue(ARG_IRI_MAPPING_FILE, "owl2anything/iri_mapping.csv");
+            iriNamespacesFile = cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE, "owl2anything/iri_namespaces.csv");
 
         } catch (ParseException e) {
 

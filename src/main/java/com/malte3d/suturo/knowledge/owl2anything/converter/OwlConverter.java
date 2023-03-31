@@ -51,18 +51,11 @@ public class OwlConverter {
     private final Set<OWLOntology> allOntologies;
 
     @Builder
-    public OwlConverter(@NonNull String ontologyFilePath, @NonNull String iriRoot, @NonNull Optional<String> iriMappingFile, @NonNull Optional<String> iriNamespacesFile) {
+    public OwlConverter(@NonNull String ontologyFilePath, @NonNull String iriRoot, @NonNull String iriMappingFile, @NonNull String iriNamespacesFile) {
 
         this.iriRoot = iriRoot;
-
-        if (iriMappingFile.isPresent())
-            this.iriMapping = IriMappingParser.getIriMapping(iriMappingFile.get());
-        else
-            this.iriMapping = Collections.emptyMap();
-
-        if (iriNamespacesFile.isPresent()) this.iriNamespaces = IriNamespacesParser.getIriNamespaces(iriNamespacesFile.get());
-        else
-            this.iriNamespaces = Collections.emptyMap();
+        this.iriMapping = IriMappingParser.getIriMapping(iriMappingFile);
+        this.iriNamespaces = IriNamespacesParser.getIriNamespaces(iriNamespacesFile);
 
         File file = new File(ontologyFilePath);
 
