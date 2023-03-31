@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 public class Owl2Anything {
 
-    private static final String OUTPUT_DIR = "owl2anything";
+    private static final String OUTPUT_DIR = "owl2anything/output";
 
     public static void main(String[] args) {
 

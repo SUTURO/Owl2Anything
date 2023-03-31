@@ -1,10 +1,6 @@
 package com.malte3d.suturo.knowledge.owl2anything.input;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.Optional;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -24,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Value
 public class StarterArgs {
 
-    private static final String OUTPUT_DIR = "owl2anything";
+    private static final String DEFAULT_CONFIG_DIR = "./owl2anything";
 
     private static final String ARG_ONTOLOGY_FILE       = "input";
     private static final String ARG_ROOT_IRI            = "root";
@@ -88,12 +84,12 @@ public class StarterArgs {
             if (cmd.hasOption(ARG_IRI_MAPPING_FILE))
                 iriMappingFile = new File(cmd.getOptionValue(ARG_IRI_MAPPING_FILE));
             else
-                iriMappingFile = new File(Objects.requireNonNull(StarterArgs.class.getResource("iri_mapping_default.csv")).toURI());
+                iriMappingFile = new File(DEFAULT_CONFIG_DIR, "iri_mapping_default.csv");
 
             if (cmd.hasOption(ARG_IRI_NAMESPACES_FILE))
                 iriNamespacesFile = new File(cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE));
             else
-                iriNamespacesFile = new File(Objects.requireNonNull(StarterArgs.class.getResource("iri_namespaces_default.csv")).toURI());
+                iriNamespacesFile = new File(DEFAULT_CONFIG_DIR, "iri_namespaces_default.csv");
 
         } catch (ParseException e) {
 
@@ -102,8 +98,6 @@ public class StarterArgs {
 
             throw new IllegalStateException("Error while parsing the command line arguments", e);
 
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException("Unable to load default iri mapping files", e);
         }
     }
 

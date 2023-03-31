@@ -64,7 +64,13 @@ distributions {
 
     main {
         contents {
+
             from "${project.buildDir}/license-report"
+
+            into(outputDirName) {
+                from "${project.rootDir}/${outputDirName}/iri_mapping_default.csv"
+                from "${project.rootDir}/${outputDirName}/iri_namespaces_default.csv"
+            }
         }
     }
 }
@@ -89,5 +95,5 @@ licenseReport {
 }
 
 clean {
-    delete "${project.rootDir}/${outputDirName}"
+    delete "${project.rootDir}/${outputDirName}/output"
 }
