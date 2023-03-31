@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Owl2Anything" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="com.malte3d.suturo.knowledge.owl2anything.Owl2Anything" />
+    <module name="owl2anything.main" />
+    <option name="PROGRAM_PARAMETERS" value="-i &quot;suturo.owl&quot; --root &quot;http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject&quot; -mapping &quot;iri_mapping.csv&quot; -namespaces &quot;iri_namespaces.csv&quot;" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
