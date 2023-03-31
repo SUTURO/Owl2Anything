@@ -89,6 +89,6 @@ licenseReport {
     excludeOwnGroup = true
     excludeBoms = true
 
-    filters = [new LicenseBundleNormalizer(bundlePath: "${project.rootDir}/license-normalizer-bundle.json")]
+    filters = [new LicenseBundleNormalizer(bundlePath: "${project.rootDir}/dependency-license-bundle.json")]
     renderers = [new InventoryHtmlReportRenderer('dependency-license-report.html')]
 }
