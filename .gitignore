@@ -28,3 +28,6 @@ out/
 
 # Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties
+
+# owl2anythin
+owl2anything/*
