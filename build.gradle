@@ -62,11 +62,14 @@ jar {
 distributions {
 
     main {
-        distributionBaseName = 'owl2anything'
         contents {
+
             from "${project.buildDir}/license-report"
-            from "${project.rootDir}/owl2anything/iri_mapping.csv"
-            from "${project.rootDir}/owl2anything/iri_namespaces.csv"
+
+            into("owl2anything") {
+                from "${project.rootDir}/owl2anything/iri_mapping.csv"
+                from "${project.rootDir}/owl2anything/iri_namespaces.csv"
+            }
         }
     }
 }
