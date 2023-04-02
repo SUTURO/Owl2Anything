@@ -26,8 +26,8 @@ public class SuturoObjectsCsvPrinter {
             "Name",
             "IRI ShortForm",
             "IRI Namespace",
-            "Description",
-            "Perception Id"
+            "Perception Id",
+            "Description"
     };
 
     private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.builder()
@@ -42,12 +42,12 @@ public class SuturoObjectsCsvPrinter {
             for (OwlRecord owlRecord : classes) {
 
                 csvPrinter.printRecord(
-                        owlRecord.getPerceptionId(),
                         owlRecord.getIriName(),
                         owlRecord.getIriShortForm(),
                         owlRecord.getIriNamespace(),
+                        owlRecord.getPerceptionId(),
                         owlRecord.getDescription()
-                );
+                        );
             }
 
             log.info("Successfully created {}", outputFile.getName());

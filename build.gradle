@@ -10,7 +10,7 @@ plugins {
 apply from: 'versions.gradle'
 
 group 'com.malte3d.suturo'
-version '1.0.2'
+version '1.0.3'
 
 sourceCompatibility = 17
 targetCompatibility = 17
