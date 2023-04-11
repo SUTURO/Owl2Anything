@@ -1,3 +1,5 @@
+[![Build and Test](https://github.com/malte3d/Owl2Anything/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/malte3d/Owl2Anything/actions/workflows/build-and-test.yml) [![Release (latest SemVer)](https://img.shields.io/github/v/release/malte3d/Owl2Anything)](https://github.com/malte3d/Owl2Anything/releases)
+
 # Owl2Anything Converter
 
 The [SUTURO](https://github.com/suturo) Owl2Anything Converter is a Java-based tool that can be used to convert OWL
