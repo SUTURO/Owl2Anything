@@ -4,13 +4,14 @@ import com.github.jk1.license.filter.LicenseBundleNormalizer
 plugins {
     id 'java'
     id 'java-library-distribution'
+    id 'com.palantir.git-version' version '3.0.0'
     id 'com.github.jk1.dependency-license-report' version '2.0'
 }
 
 apply from: 'versions.gradle'
 
 group 'com.malte3d.suturo'
-version '1.0.3'
+version gitVersion()
 
 sourceCompatibility = 17
 targetCompatibility = 17
