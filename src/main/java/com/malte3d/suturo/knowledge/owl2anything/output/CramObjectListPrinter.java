@@ -49,19 +49,14 @@ public class CramObjectListPrinter {
                 .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
                 .toList();
 
-        StringBuilder sb = new StringBuilder("names: [");
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < perceptionClasses.size(); i++) {
+        for (OwlRecord owlRecord : perceptionClasses) {
 
-            OwlRecord owlRecord = perceptionClasses.get(i);
-
-            sb.append("'").append(escapeSingleQuotes(owlRecord.getIriShortForm())).append("'");
-
-            if (i < perceptionClasses.size() - 1)
-                sb.append(", ");
+            sb.append("(:").append(owlRecord.getIriName()).append("\n");
+            sb.append(" '").append(escapeSingleQuotes(owlRecord.getIriShortForm())).append("'");
+            sb.append(")").append("\n");
         }
-
-        sb.append("]");
 
         return sb.toString();
     }
