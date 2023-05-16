@@ -27,9 +27,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Grant execute permission to gradlew
-        run: chmod +x gradlew
-
       - name: Run distribution build
         uses: gradle/gradle-build-action@v2
         with:
@@ -39,5 +36,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: v${{  github.ref_name }}
-          body: "### What's changed?\n $(git tag -l --format='%(contents:subject)' ${GITHUB_REF#refs/*/})"
+          body: "### What's changed?\n $(git tag -l --format='%(contents:subject)' ${{  github.ref_name }}"
           files: build/distributions/*.zip
