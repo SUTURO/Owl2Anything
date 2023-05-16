@@ -4,9 +4,12 @@ on:
   push:
     tags:
       - '*'
-      -
+      
 env:
   JAVA_VERSION: 17
+
+permissions:
+  contents: write
 
 jobs:
   release:
