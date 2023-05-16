@@ -13,11 +13,8 @@ env:
   JAVA_VERSION: 17
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -35,7 +32,7 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      - name: Execute Gradle build
+      - name: Run assemble
         uses: gradle/gradle-build-action@v2
         with:
           arguments: assemble
