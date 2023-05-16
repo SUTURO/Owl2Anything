@@ -17,9 +17,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - run: git fetch --all --tags
+      - run: git fetch --tags --force
 
       - name: Setup Java
         uses: actions/setup-java@v3
