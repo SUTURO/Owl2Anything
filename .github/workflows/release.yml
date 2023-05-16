@@ -29,11 +29,15 @@ jobs:
         with:
           arguments: distZip
 
-      - name: Release
+      - name: Get release notes
+        id: release-notes
+        run: echo "::set-output name=subject::$(git tag -l --format='%(contents:subject)' ${{ github.ref_name }})"
+
+      - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           name: v${{  github.ref_name }}
           body: |
             ### What's changed?
-            $(git tag -l --format='%(contents:subject)' ${{ github.ref }})
+            ${{ steps.release-notes.outputs.subject }}
           files: build/distributions/*.zip
