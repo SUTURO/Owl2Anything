@@ -39,5 +39,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: v${{  github.ref_name }}
-          body: "### What's changed?\n ${{ github.event.head_commit.message }}"
+          body: "### What's changed?\n $(git tag -l --format='%(contents:subject)' ${GITHUB_REF#refs/*/})"
           files: build/distributions/*.zip
