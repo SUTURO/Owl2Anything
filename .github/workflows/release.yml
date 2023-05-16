@@ -33,7 +33,7 @@ jobs:
       - name: Get release notes
         id: release-notes
         run: |
-          echo "### What's changed?\n$(git tag -l --format='%(contents:body)' ${{ github.ref_name }})" > ${{ github.ref_name }}-CHANGELOG.txt
+          echo "### What's changed?\n$(git tag -l --format='%(contents:body)' ${{ github.ref_name }})" > ${{ github.workspace }}-CHANGELOG.txt
 
       - name: Create release
         uses: softprops/action-gh-release@v1
