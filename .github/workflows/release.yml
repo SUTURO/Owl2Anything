@@ -24,9 +24,6 @@ jobs:
           distribution: "corretto"
           java-version: "${{ env.JAVA_VERSION }}"
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Run distribution build
         uses: gradle/gradle-build-action@v2
         with:
@@ -36,5 +33,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: v${{  github.ref_name }}
-          body: "### What's changed?\n $(git tag -l --format='%(contents:subject)' ${{  github.ref_name }}"
+          body: |
+            ### What's changed?
+            $(git tag -l --format='%(contents:subject)' ${{ github.ref }})
           files: build/distributions/*.zip
