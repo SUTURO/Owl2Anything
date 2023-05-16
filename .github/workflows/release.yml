@@ -31,7 +31,7 @@ jobs:
 
       - name: Get release notes
         id: release-notes
-        run: echo "subject=$(git tag -l --format='%(contents:body)' ${{ github.ref_name }})" >> $GITHUB_OUTPUT
+        run: echo "notes=$(git tag -l --format='%(contents:body)' ${{ github.ref_name }})" >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@v1
@@ -39,5 +39,5 @@ jobs:
           name: v${{  github.ref_name }}
           body: |
             ### What's changed?
-            ${{ steps.release-notes.outputs.subject }}
+            ${{ steps.release-notes.outputs.notes }}
           files: build/distributions/*.zip
