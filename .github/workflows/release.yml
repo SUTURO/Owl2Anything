@@ -31,7 +31,7 @@ jobs:
 
       - name: Get release notes
         id: release-notes
-        run: echo "::set-output name=subject::$(git tag -l --format='%(contents:subject)' ${{ github.ref_name }})"
+        run: echo "subject=$(git tag -l --format='%(contents:body)' ${{ github.ref_name }})" >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@v1
