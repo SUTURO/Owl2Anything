@@ -53,7 +53,7 @@ public class CramKnowRobPrinter {
 
         for (OwlRecord owlRecord : perceptionClasses) {
 
-            sb.append("(:").append(owlRecord.getIriName()).append("\n");
+            sb.append("(:").append(owlRecord.getIriName().toLowerCase()).append("\n");
             sb.append(" \"").append(owlRecord.getIriShortForm()).append("\"");
             sb.append(")").append("\n");
         }

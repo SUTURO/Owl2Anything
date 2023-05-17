@@ -50,8 +50,10 @@ public class CramRoboKudoPrinter {
 
         for (OwlRecord owlRecord : perceptionClasses) {
 
-            sb.append("(:").append(owlRecord.getIriName()).append("\n");
-            sb.append(" :").append(owlRecord.getIriName());
+            String cramKey = owlRecord.getIriName().toLowerCase();
+
+            sb.append("(:").append(cramKey).append("\n");
+            sb.append(" :").append(cramKey);
             sb.append(")").append("\n");
         }
 
