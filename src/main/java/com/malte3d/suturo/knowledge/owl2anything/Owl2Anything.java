@@ -6,7 +6,8 @@ import java.util.List;
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlConverter;
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import com.malte3d.suturo.knowledge.owl2anything.input.StarterArgs;
-import com.malte3d.suturo.knowledge.owl2anything.output.CramObjectListPrinter;
+import com.malte3d.suturo.knowledge.owl2anything.output.CramKnowRobPrinter;
+import com.malte3d.suturo.knowledge.owl2anything.output.CramRoboKudoPrinter;
 import com.malte3d.suturo.knowledge.owl2anything.output.Id2NameJsonPrinter;
 import com.malte3d.suturo.knowledge.owl2anything.output.SuturoObjectsCsvPrinter;
 import com.malte3d.suturo.knowledge.owl2anything.output.YoloObjNamesPrinter;
@@ -44,6 +45,7 @@ public class Owl2Anything {
         SuturoObjectsCsvPrinter.print(owlRecords, new File(outputDir, "suturo_objects.csv"));
         Id2NameJsonPrinter.print(owlRecords, new File(outputDir, "id2name.json"));
         YoloObjNamesPrinter.print(owlRecords, new File(outputDir, "obj.names"));
-        CramObjectListPrinter.print(owlRecords, new File(outputDir, "cram_names.txt"));
+        CramRoboKudoPrinter.print(owlRecords, new File(outputDir, "cram_robokudo.txt"));
+        CramKnowRobPrinter.print(owlRecords, new File(outputDir, "cram_knowrob.txt"));
     }
 }
