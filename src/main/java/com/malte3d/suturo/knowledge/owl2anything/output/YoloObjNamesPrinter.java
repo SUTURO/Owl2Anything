@@ -41,7 +41,7 @@ public class YoloObjNamesPrinter {
 
             for (OwlRecord owlRecord : perceptionClasses) {
 
-                csvPrinter.printRecord(getRoboKudoName(owlRecord));
+                csvPrinter.printRecord(OwlRecordConverter.toRoboKudoFormat(owlRecord));
             }
 
             log.info("Successfully created {}", outputFile.getName());
