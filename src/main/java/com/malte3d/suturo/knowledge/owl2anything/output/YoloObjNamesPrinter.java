@@ -28,7 +28,7 @@ public class YoloObjNamesPrinter {
             .setDelimiter(';')
             .build();
 
-    public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile)  {
+    public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
         List<OwlRecord> perceptionClasses = classes.stream()
                 .filter(csvRecord -> csvRecord.getPerceptionId() != null)
@@ -41,9 +41,7 @@ public class YoloObjNamesPrinter {
 
             for (OwlRecord owlRecord : perceptionClasses) {
 
-                csvPrinter.printRecord(
-                        owlRecord.getIriShortForm()
-                );
+                csvPrinter.printRecord(owlRecord.getIriName());
             }
 
             log.info("Successfully created {}", outputFile.getName());

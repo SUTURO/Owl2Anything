@@ -35,7 +35,7 @@ public class Id2NameJsonPrinter {
         TreeMap<Integer, String> perceptionNames = classes.stream()
                 .filter(csvRecord -> csvRecord.getPerceptionId() != null)
                 .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
-                .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecord::getIriShortForm,
+                .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecord::getIriName,
                         (c1, c2) -> {
                             throw new IllegalStateException(String.format("Duplicate perceptionIds for classes %s and %s", c1, c2));
                         },
