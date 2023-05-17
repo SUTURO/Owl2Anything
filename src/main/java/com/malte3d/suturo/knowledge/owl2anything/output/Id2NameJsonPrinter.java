@@ -35,7 +35,7 @@ public class Id2NameJsonPrinter {
         TreeMap<Integer, String> perceptionNames = classes.stream()
                 .filter(csvRecord -> csvRecord.getPerceptionId() != null)
                 .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
-                .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecord::getIriName,
+                .collect(Collectors.toMap(OwlRecord::getPerceptionId, Id2NameJsonPrinter::getRoboKudoName,
                         (c1, c2) -> {
                             throw new IllegalStateException(String.format("Duplicate perceptionIds for classes %s and %s", c1, c2));
                         },
@@ -52,4 +52,13 @@ public class Id2NameJsonPrinter {
         }
     }
 
+    /**
+     * @param record The OwlRecord
+     * @return IRI name with the first letter capitalized
+     */
+    private static String getRoboKudoName(OwlRecord record) {
+
+        String lowerCaseName = record.getIriName().toLowerCase();
+        return lowerCaseName.substring(0, 1).toUpperCase() + lowerCaseName.substring(1);
+    }
 }

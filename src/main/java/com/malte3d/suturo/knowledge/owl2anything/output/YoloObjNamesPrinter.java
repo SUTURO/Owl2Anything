@@ -41,7 +41,7 @@ public class YoloObjNamesPrinter {
 
             for (OwlRecord owlRecord : perceptionClasses) {
 
-                csvPrinter.printRecord(owlRecord.getIriName());
+                csvPrinter.printRecord(getRoboKudoName(owlRecord));
             }
 
             log.info("Successfully created {}", outputFile.getName());
@@ -86,6 +86,16 @@ public class YoloObjNamesPrinter {
 
         if (!duplicate.isEmpty())
             throw new IllegalStateException("Duplicate perception Ids found: " + duplicate);
+    }
+
+    /**
+     * @param record The OwlRecord
+     * @return IRI name with the first letter capitalized
+     */
+    private static String getRoboKudoName(OwlRecord record) {
+
+        String lowerCaseName = record.getIriName().toLowerCase();
+        return lowerCaseName.substring(0, 1).toUpperCase() + lowerCaseName.substring(1);
     }
 
 }
