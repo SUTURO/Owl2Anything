@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import lombok.NonNull;
@@ -15,13 +14,11 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Utility class to create a txt file for the CRAM object list
+ * Utility class to create a txt file for the CRAM - RoboKudo interface
  */
 @Slf4j
 @UtilityClass
-public class CramObjectListPrinter {
-
-    private static final Pattern SINGLE_QUOTE = Pattern.compile("'");
+public class CramRoboKudoPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
@@ -32,7 +29,7 @@ public class CramObjectListPrinter {
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)) {
 
-            writer.append(generateCramObjectListString(perceptionClasses));
+            writer.append(generateCramRoboKudoInterfaceString(perceptionClasses));
 
             log.info("Successfully created {}", outputFile.getName());
 
@@ -41,7 +38,7 @@ public class CramObjectListPrinter {
         }
     }
 
-    public static String generateCramObjectListString(@NonNull List<OwlRecord> classes) {
+    public static String generateCramRoboKudoInterfaceString(@NonNull List<OwlRecord> classes) {
 
 
         List<OwlRecord> perceptionClasses = classes.stream()
@@ -49,24 +46,15 @@ public class CramObjectListPrinter {
                 .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
                 .toList();
 
-        StringBuilder sb = new StringBuilder("names: [");
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < perceptionClasses.size(); i++) {
+        for (OwlRecord owlRecord : perceptionClasses) {
 
-            OwlRecord owlRecord = perceptionClasses.get(i);
-
-            sb.append("'").append(escapeSingleQuotes(owlRecord.getIriShortForm())).append("'");
-
-            if (i < perceptionClasses.size() - 1)
-                sb.append(", ");
+            sb.append("(:").append(OwlRecordConverter.toCramFormat(owlRecord)).append("\n");
+            sb.append(" :").append(OwlRecordConverter.toCramFormat(owlRecord)).append(")").append("\n");
         }
-
-        sb.append("]");
 
         return sb.toString();
     }
 
-    private static String escapeSingleQuotes(String literal) {
-        return SINGLE_QUOTE.matcher(literal).replaceAll("\\\\'");
-    }
 }

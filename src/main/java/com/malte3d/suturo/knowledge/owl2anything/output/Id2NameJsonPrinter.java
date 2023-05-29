@@ -34,7 +34,7 @@ public class Id2NameJsonPrinter {
         List<OwlRecord> perceptionClasses = PerceptionClassesFilter.filter(classes);
 
         TreeMap<Integer, String> perceptionNames = perceptionClasses.stream()
-                .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecord::getIriShortForm,
+                .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecordConverter::toRoboKudoFormat,
                         (c1, c2) -> {
                             throw new IllegalStateException(String.format("Duplicate perceptionIds for classes %s and %s", c1, c2));
                         },
