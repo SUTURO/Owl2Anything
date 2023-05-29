@@ -38,6 +38,9 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationPropertyImpl;
 
+/**
+ * The main class for converting an OWL ontology to a custom format.
+ */
 @Slf4j
 public class OwlConverter {
 
@@ -98,6 +101,10 @@ public class OwlConverter {
             String description = extractDescription(owlClass);
             String perceptionIdString = extractPerceptionId(owlClass);
             Integer perceptionId = perceptionIdString == null ? null : Integer.valueOf(perceptionIdString);
+
+            // Skip "Nothing"
+            if("http://www.w3.org/2002/07/owl#Nothing".equals(owlClass.getIRI().getIRIString()))
+                continue;
 
             OwlRecord owlRecord = OwlRecord.builder()
                     .iriName(iriName)

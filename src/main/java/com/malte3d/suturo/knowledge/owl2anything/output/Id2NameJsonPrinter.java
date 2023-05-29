@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -32,9 +31,9 @@ public class Id2NameJsonPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
-        TreeMap<Integer, String> perceptionNames = classes.stream()
-                .filter(csvRecord -> csvRecord.getPerceptionId() != null)
-                .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
+        List<OwlRecord> perceptionClasses = PerceptionClassesFilter.filter(classes);
+
+        TreeMap<Integer, String> perceptionNames = perceptionClasses.stream()
                 .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecord::getIriShortForm,
                         (c1, c2) -> {
                             throw new IllegalStateException(String.format("Duplicate perceptionIds for classes %s and %s", c1, c2));
