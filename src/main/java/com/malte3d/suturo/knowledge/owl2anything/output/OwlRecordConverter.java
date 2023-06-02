@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
 public class OwlRecordConverter {
 
     public static String toKnowRobFormat(OwlRecord owlRecord) {
-        return owlRecord.getIriShortForm();
+        return owlRecord.getIriNamespace() + owlRecord.getIriName();
     }
 
     public static String toCramFormat(OwlRecord owlRecord) {
