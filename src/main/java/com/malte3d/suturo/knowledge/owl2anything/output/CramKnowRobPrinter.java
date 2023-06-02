@@ -53,9 +53,8 @@ public class CramKnowRobPrinter {
 
         for (OwlRecord owlRecord : perceptionClasses) {
 
-            sb.append("(:").append(OwlRecordConverter.toCramFormat(owlRecord)).append("\n");
-            sb.append(" \"").append(OwlRecordConverter.toKnowRobFormat(owlRecord)).append("\"");
-            sb.append(")").append("\n");
+            sb.append("\t").append("(:").append(OwlRecordConverter.toCramFormat(owlRecord)).append("\n");
+            sb.append("\t").append(" \"").append(OwlRecordConverter.toKnowRobFormat(owlRecord)).append("\"").append(")").append("\n");
         }
 
         return sb.toString();
