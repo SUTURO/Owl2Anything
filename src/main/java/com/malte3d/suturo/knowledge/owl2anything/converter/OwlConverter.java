@@ -98,7 +98,7 @@ public class OwlConverter {
             if ("http://www.w3.org/2002/07/owl#Nothing".equals(owlClass.getIRI().getIRIString()))
                 continue;
 
-            for(int perceptionId : perceptionIds) {
+            if(perceptionIds.isEmpty()) {
 
                 OwlRecord owlRecord = OwlRecord.builder()
                         .iriName(iriName)
@@ -106,10 +106,26 @@ public class OwlConverter {
                         .iriNamespaceShort(iriNamespaceShort)
                         .naturalName(naturalName)
                         .description(description)
-                        .perceptionId(perceptionId)
+                        .perceptionId(null)
                         .build();
 
                 owlRecords.add(owlRecord);
+
+            } else {
+
+                for(int perceptionId : perceptionIds) {
+
+                    OwlRecord owlRecord = OwlRecord.builder()
+                            .iriName(iriName)
+                            .iriNamespace(iriNamespace)
+                            .iriNamespaceShort(iriNamespaceShort)
+                            .naturalName(naturalName)
+                            .description(description)
+                            .perceptionId(perceptionId)
+                            .build();
+
+                    owlRecords.add(owlRecord);
+                }
             }
         }
 
