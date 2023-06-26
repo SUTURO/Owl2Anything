@@ -25,14 +25,11 @@ public class CramKnowRobPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
-        List<OwlRecord> perceptionClasses = classes.stream()
-                .filter(csvRecord -> csvRecord.getPerceptionId() != null)
-                .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
-                .toList();
+        List<OwlRecord> output = PerceptionClassesFilter.filter(classes);
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)) {
 
-            writer.append(generateCramObjectListString(perceptionClasses));
+            writer.append(generateCramObjectListString(output));
 
             log.info("Successfully created {}", outputFile.getName());
 

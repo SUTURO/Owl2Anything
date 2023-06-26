@@ -44,7 +44,7 @@ public class Owl2Anything {
         outputDir.mkdirs();
 
         SuturoObjectsCsvPrinter.print(owlRecords, new File(outputDir, "suturo_objects.csv"));
-        SuturoObjectsDefaultSizeCsvPrinter.print(owlRecords, new File(outputDir, "suturo_objects_default_sizes.csv"));
+        // SuturoObjectsDefaultSizeCsvPrinter.print(owlRecords, new File(outputDir, "suturo_objects_default_sizes.csv"));
         Id2NameJsonPrinter.print(owlRecords, new File(outputDir, "id2name.json"));
         YoloObjNamesPrinter.print(owlRecords, new File(outputDir, "obj.names"));
         CramRoboKudoPrinter.print(owlRecords, new File(outputDir, "cram_robokudo.txt"));

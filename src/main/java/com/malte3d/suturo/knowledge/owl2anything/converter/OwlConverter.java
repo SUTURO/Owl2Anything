@@ -1,12 +1,7 @@
 package com.malte3d.suturo.knowledge.owl2anything.converter;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -97,23 +92,25 @@ public class OwlConverter {
             String iriNamespaceShort = iriNamespaces.get(iriNamespace);
             String naturalName = extractNaturalName(owlClass);
             String description = extractDescription(owlClass);
-            String perceptionIdString = extractPerceptionId(owlClass);
-            Integer perceptionId = perceptionIdString == null ? null : Integer.valueOf(perceptionIdString);
+            List<Integer> perceptionIds = extractPerceptionId(owlClass);
 
             // Skip "Nothing"
-            if("http://www.w3.org/2002/07/owl#Nothing".equals(owlClass.getIRI().getIRIString()))
+            if ("http://www.w3.org/2002/07/owl#Nothing".equals(owlClass.getIRI().getIRIString()))
                 continue;
 
-            OwlRecord owlRecord = OwlRecord.builder()
-                    .iriName(iriName)
-                    .iriNamespace(iriNamespace)
-                    .iriNamespaceShort(iriNamespaceShort)
-                    .naturalName(naturalName)
-                    .description(description)
-                    .perceptionId(perceptionId)
-                    .build();
+            for(int perceptionId : perceptionIds) {
 
-            owlRecords.add(owlRecord);
+                OwlRecord owlRecord = OwlRecord.builder()
+                        .iriName(iriName)
+                        .iriNamespace(iriNamespace)
+                        .iriNamespaceShort(iriNamespaceShort)
+                        .naturalName(naturalName)
+                        .description(description)
+                        .perceptionId(perceptionId)
+                        .build();
+
+                owlRecords.add(owlRecord);
+            }
         }
 
         /* Sort the records lexicographically */
@@ -129,15 +126,16 @@ public class OwlConverter {
      *
      * @return The pereception id or null
      */
-    private String extractPerceptionId(OWLClass owlClass) {
+    private List<Integer> extractPerceptionId(OWLClass owlClass) {
 
         OWLAnnotationPropertyImpl idAnnotationProperty = new OWLAnnotationPropertyImpl(IRI.create("http://www.ease-crc.org/ont/SUTURO.owl#perceptionId"));
 
         return EntitySearcher.getAnnotations(owlClass, allOntologies.stream(), idAnnotationProperty)
-                .findFirst()
                 .map(OWLAnnotation::getValue)
-                .flatMap(value -> value.asLiteral().map(owlLiteral -> owlLiteral.components().toArray()[1].toString()))
-                .orElse(null);
+                .map(value -> value.asLiteral().map(owlLiteral -> owlLiteral.components().toArray()[1].toString()))
+                .map(perceptionIdString -> perceptionIdString.map(Integer::valueOf).orElse(null))
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     /**

@@ -31,9 +31,9 @@ public class Id2NameJsonPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
-        List<OwlRecord> perceptionClasses = PerceptionClassesFilter.filter(classes);
+        List<OwlRecord> output = PerceptionClassesFilter.filter(classes);
 
-        TreeMap<Integer, String> perceptionNames = perceptionClasses.stream()
+        TreeMap<Integer, String> perceptionNames = output.stream()
                 .collect(Collectors.toMap(OwlRecord::getPerceptionId, OwlRecordConverter::toRoboKudoFormat,
                         (c1, c2) -> {
                             throw new IllegalStateException(String.format("Duplicate perceptionIds for classes %s and %s", c1, c2));

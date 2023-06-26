@@ -3,6 +3,8 @@ package com.malte3d.suturo.knowledge.owl2anything.output;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import lombok.NonNull;
@@ -34,6 +36,34 @@ public class PerceptionClassesFilter {
         validateClasses(perceptionClasses);
 
         return perceptionClasses;
+    }
+
+    /**
+     * Filters the given classes.
+     *
+     * @param classes the classes to filter
+     * @return the filtered classes
+     */
+    public static List<OwlRecord> filterAll(@NonNull List<OwlRecord> classes) {
+
+        List<OwlRecord> fixedClasses = classes.stream()
+                .filter(csvRecord -> csvRecord.getPerceptionId() != null)
+                .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
+                .toList();
+
+        AtomicInteger counter = new AtomicInteger(fixedClasses.size());
+
+        List<OwlRecord> additionalClasses = classes.stream()
+                .filter(csvRecord -> csvRecord.getPerceptionId() == null)
+                .sorted(Comparator.comparing(OwlRecord::getIriName))
+                .map(record -> record.withPerceptionId(counter.getAndIncrement()))
+                .toList();
+
+        List<OwlRecord> output = Stream.concat(fixedClasses.stream(), additionalClasses.stream()).toList();
+
+        validateClasses(output);
+
+        return output;
     }
 
     private static void validateClasses(List<OwlRecord> records) {

@@ -22,14 +22,11 @@ public class CramRoboKudoPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
-        List<OwlRecord> perceptionClasses = classes.stream()
-                .filter(csvRecord -> csvRecord.getPerceptionId() != null)
-                .sorted(Comparator.comparing(OwlRecord::getPerceptionId))
-                .toList();
+        List<OwlRecord> output = PerceptionClassesFilter.filter(classes);
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)) {
 
-            writer.append(generateCramRoboKudoInterfaceString(perceptionClasses));
+            writer.append(generateCramRoboKudoInterfaceString(output));
 
             log.info("Successfully created {}", outputFile.getName());
 
@@ -50,8 +47,8 @@ public class CramRoboKudoPrinter {
 
         for (OwlRecord owlRecord : perceptionClasses) {
 
-            sb.append("(:").append(OwlRecordConverter.toCramFormat(owlRecord)).append("\n");
-            sb.append(" :").append(OwlRecordConverter.toCramFormat(owlRecord)).append(")").append("\n");
+            sb.append("\t").append("(:").append(OwlRecordConverter.toCramFormat(owlRecord)).append("\n");
+            sb.append("\t").append(" :").append(OwlRecordConverter.toCramFormat(owlRecord)).append(")").append("\n");
         }
 
         return sb.toString();

@@ -28,11 +28,11 @@ public class YoloObjNamesPrinter {
 
     public static void print(@NonNull List<OwlRecord> classes, @NonNull File outputFile) {
 
-        List<OwlRecord> perceptionClasses = PerceptionClassesFilter.filter(classes);
+        List<OwlRecord> output = PerceptionClassesFilter.filter(classes);
 
         try (CSVPrinter csvPrinter = new CSVPrinter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8), CSV_FORMAT)) {
 
-            for (OwlRecord owlRecord : perceptionClasses) {
+            for (OwlRecord owlRecord : output) {
 
                 csvPrinter.printRecord(OwlRecordConverter.toRoboKudoFormat(owlRecord));
             }

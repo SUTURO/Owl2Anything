@@ -3,11 +3,13 @@ package com.malte3d.suturo.knowledge.owl2anything.converter;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import lombok.With;
 
 /**
  * Combines extracted information from an OWL Class.
  */
 @Value
+@With
 @Builder
 public class OwlRecord implements Comparable<OwlRecord> {
 
