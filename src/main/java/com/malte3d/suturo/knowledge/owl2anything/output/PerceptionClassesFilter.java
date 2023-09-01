@@ -1,8 +1,6 @@
 package com.malte3d.suturo.knowledge.owl2anything.output;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -79,7 +77,7 @@ public class PerceptionClassesFilter {
                 .toList();
 
         if (!incompleteRecords.isEmpty())
-            throw new IllegalStateException("Classes without Id found: " + incompleteRecords);
+            throw new IllegalStateException("Classes without Id found: " +  generateRecordsList(incompleteRecords));
 
         boolean isSortedAndContinuous = records.stream()
                 .mapToInt(OwlRecord::getPerceptionId)
@@ -87,19 +85,26 @@ public class PerceptionClassesFilter {
                 .orElse(Integer.MIN_VALUE) != Integer.MIN_VALUE;
 
         if (!isSortedAndContinuous)
-            throw new IllegalStateException("Ids are not continuously increasing: " + records);
+            throw new IllegalStateException("Ids are not continuously increasing: " + generateRecordsList(records));
     }
 
     private static void checkForDuplicates(List<OwlRecord> records) {
 
-        HashSet<Integer> seen = new HashSet<>(records.size());
-        HashSet<OwlRecord> duplicate = new HashSet<>();
+        Set<Integer> seen = new HashSet<>(records.size());
+        Set<OwlRecord> duplicate = new HashSet<>();
 
         for (OwlRecord csvRecord : records)
             if (!seen.add(csvRecord.getPerceptionId()))
                 duplicate.add(csvRecord);
 
         if (!duplicate.isEmpty())
-            throw new IllegalStateException("Duplicate perception Ids found: " + duplicate);
+            throw new IllegalStateException("Duplicate perception Ids found: " + generateRecordsList(duplicate));
+    }
+
+    /**
+     * @return A string containing the records in the format "iriName: perceptionId" separated by a new line
+     */
+    private String generateRecordsList(Collection<OwlRecord> records) {
+        return String.join("\n", records.stream().map(record -> record.getIriName() + ": " + record.getPerceptionId()).toList());
     }
 }
