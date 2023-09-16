@@ -74,6 +74,8 @@ git push origin 1.3.0
 - The tag message head should start with a `v` prefix and then the tag name (e.g. `v1.3.0`).
 - The tag message body should contain a short description of the changes since the last release.
 
+To use the new release, change the `OWL2ANYTHING_VERSION` in the [owl2anything.yml](https://github.com/SUTURO/suturo_knowledge/blob/master/.github/workflows/owl2anything.yml) workflow of the [Knowledge Project](https://github.com/SUTURO/suturo_knowledge).
+
 ## License
 
 The SUTURO Owl2Anything Converter is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.
