@@ -45,6 +45,35 @@ http://www.ease-crc.org/ont/SUTURO.owl#;suturo
 http://www.ease-crc.org/ont/SOMA.owl#;soma
 ```
 
+## Contributing
+
+### Recommend Code Editor
+
+We recommend using [IntelliJ IDEA](https://www.jetbrains.com/idea/) as code editor for this project with the following plugins:
+- Lombok
+
+### Getting Started
+
+1. Open the project in IntelliJ IDEA
+2. Place the `suturo.owl` file in the projects root folder
+3. Execute the Run-Configuration `Run Owl2Anything` or start the application via the main method in `Owl2Anything.java` with the required arguments.
+4. The generated files will be placed in the `owl2anything/output` folder
+
+### Create a Release
+
+To publish a new release, you need to create a new tag with the version number and push it to the repository.
+The release is then published automatically by the GitHub Actions [release.yml](.github/workflows/release.yml) workflow.
+
+Example:
+```bash
+git tag -a 1.3.0 -m "v1.3.0" -m "- Fix bug in CSV export"
+git push origin 1.3.0
+```
+
+- The tag name should be a valid [SemVer](https://semver.org/spec/v2.0.0.html) version number.
+- The tag message head should start with a `v` prefix and then the tag name (e.g. `v1.3.0`).
+- The tag message body should contain a short description of the changes since the last release.
+
 ## License
 
 The SUTURO Owl2Anything Converter is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.
