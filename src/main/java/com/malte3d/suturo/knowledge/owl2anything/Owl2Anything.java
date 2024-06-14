@@ -6,12 +6,7 @@ import java.util.List;
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlConverter;
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import com.malte3d.suturo.knowledge.owl2anything.input.StarterArgs;
-import com.malte3d.suturo.knowledge.owl2anything.output.CramKnowRobPrinter;
-import com.malte3d.suturo.knowledge.owl2anything.output.CramRoboKudoPrinter;
-import com.malte3d.suturo.knowledge.owl2anything.output.Id2NameJsonPrinter;
-import com.malte3d.suturo.knowledge.owl2anything.output.SuturoObjectsCsvPrinter;
-import com.malte3d.suturo.knowledge.owl2anything.output.SuturoObjectsDefaultSizeCsvPrinter;
-import com.malte3d.suturo.knowledge.owl2anything.output.YoloObjNamesPrinter;
+import com.malte3d.suturo.knowledge.owl2anything.output.*;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,5 +44,6 @@ public class Owl2Anything {
         YoloObjNamesPrinter.print(owlRecords, new File(outputDir, "obj.names"));
         CramRoboKudoPrinter.print(owlRecords, new File(outputDir, "cram_robokudo.txt"));
         CramKnowRobPrinter.print(owlRecords, new File(outputDir, "cram_knowrob.txt"));
+        PyCramKnowRobPrinter.print(owlRecords, new File(outputDir, "pycram_knowrob.py"));
     }
 }

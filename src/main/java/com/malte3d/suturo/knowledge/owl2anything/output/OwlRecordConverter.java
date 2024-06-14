@@ -3,6 +3,9 @@ package com.malte3d.suturo.knowledge.owl2anything.output;
 import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import lombok.experimental.UtilityClass;
 
+import java.util.Locale;
+import java.util.regex.Pattern;
+
 /**
  * Converts an {@link OwlRecord} to the formats needed for the different interfaces
  */
@@ -23,6 +26,31 @@ public class OwlRecordConverter {
      */
     public static String toCramFormat(OwlRecord owlRecord) {
         return owlRecord.getIriName().toLowerCase();
+    }
+
+    private static final Pattern CAPITAL_LETTER = Pattern.compile("([A-Z])");
+    private static final Pattern CAPITAL_LETTER_GROUP = Pattern.compile("([A-Z])_([A-Z])");
+
+    /**
+     * @param owlRecord the record to convert
+     * @return the record in the format needed for the PyCRAM variable names
+     */
+    public static String toPycramFormat(OwlRecord owlRecord) {
+        String name = owlRecord.getIriName();
+        // First convert "CerealBox" and "ToyotaHSR" to "_Cereal_Box" and "_Toyota_H_S_R"
+        // aka prefix all capital letters with an _
+        name = CAPITAL_LETTER.matcher(name).replaceAll("_$1");
+        // Then convert "_Cereal_Box" and "_Toyota_H_S_R" to "_Cereal_Box" and "_Toyota_HS_R"
+        // aka remove underscores between capital letters
+        name = CAPITAL_LETTER_GROUP.matcher(name).replaceAll("$1$2");
+        // Then convert "_Cereal_Box" and "_Toyota_HS_R" to "_Cereal_Box" and "_Toyota_HSR"
+        // aka remove the underscores not removed in the step before,
+        // since the left capital letter was already part of a replacement in that step
+        name = CAPITAL_LETTER_GROUP.matcher(name).replaceAll("$1$2");
+        // Lastly convert "_Cereal_Box" and "_Toyota_HSR" to "cereal_box" and "toyota_hsr"
+        // aka remove the underscore at the beginning (since all names start with a capital letter)
+        // and convert it to lower case
+        return name.substring(1).toLowerCase();
     }
 
     /**
