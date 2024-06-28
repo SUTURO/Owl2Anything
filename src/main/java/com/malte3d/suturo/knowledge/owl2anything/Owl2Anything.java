@@ -45,5 +45,6 @@ public class Owl2Anything {
         CramRoboKudoPrinter.print(owlRecords, new File(outputDir, "cram_robokudo.txt"));
         CramKnowRobPrinter.print(owlRecords, new File(outputDir, "cram_knowrob.txt"));
         PyCramKnowRobPrinter.print(owlRecords, new File(outputDir, "pycram_knowrob.py"));
+		PyCramRoboKudoPrinter.print(owlRecords, new File(outputDir, "pycram_robokudo.py"));
     }
 }

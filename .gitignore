@@ -32,3 +32,7 @@ out/
 # owl2anything
 owl2anything/output/*
 *.owl
+
+### Emacs ###
+# emacs backup files
+*~

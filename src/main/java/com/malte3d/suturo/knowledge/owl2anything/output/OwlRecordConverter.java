@@ -47,10 +47,16 @@ public class OwlRecordConverter {
         // aka remove the underscores not removed in the step before,
         // since the left capital letter was already part of a replacement in that step
         name = CAPITAL_LETTER_GROUP.matcher(name).replaceAll("$1$2");
-        // Lastly convert "_Cereal_Box" and "_Toyota_HSR" to "cereal_box" and "toyota_hsr"
+
+		// Lastly convert "_Cereal_Box" and "_Toyota_HSR" to "cereal_box" and "toyota_hsr"
         // aka remove the underscore at the beginning (since all names start with a capital letter)
         // and convert it to lower case
-        return name.substring(1).toLowerCase();
+
+		// since the current suturo_perception group made some object names without a capital letter at the start, only remove in that case.
+		if (name.startsWith("_")) {
+			name = name.substring(1);
+		}
+        return name.toLowerCase();
     }
 
     /**
@@ -58,7 +64,8 @@ public class OwlRecordConverter {
      * @return the record in the format needed for the CRAM - RoboKudo interface in Perception
      */
     public static String toRoboKudoFormat(OwlRecord owlRecord) {
-        String lowerCaseName = owlRecord.getIriName().toLowerCase();
-        return lowerCaseName.substring(0, 1).toUpperCase() + lowerCaseName.substring(1);
+		String iriName = owlRecord.getIriName();
+        String restLowerCaseName = iriName.substring(1).toLowerCase(Locale.ROOT);
+        return iriName.charAt(0) + restLowerCaseName;
     }
 }
