@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
+import java.util.List;
+
 /**
  * Combines extracted information from an OWL Class.
  */
@@ -54,6 +56,12 @@ public class OwlRecord implements Comparable<OwlRecord> {
     Size defaultSize;
 
     /**
+     * SUTURO predefined names, used for nlp names
+     */
+    @NonNull
+    List<String> predefinedNames;
+
+    /**
      * @return The combination of {@link #iriNamespaceShort} and {@link #iriName}
      * <p>
      * Example: suturo:'Apple'
@@ -62,6 +70,18 @@ public class OwlRecord implements Comparable<OwlRecord> {
     @NonNull
     public String getIriShortForm() {
         return iriNamespaceShort + ":'" + iriName + "'";
+    }
+
+    /**
+     * @return The combination of {@link #iriNamespace} and {@link #iriName}
+     * <p>
+     * Example: <pre>http://www.ease-crc.org/ont/SUTURO.owl#Apple</pre>
+     * </p>
+     */
+    @SuppressWarnings("JavadocLinkAsPlainText")
+    @NonNull
+    public String getIriLongForm() {
+        return iriNamespace + iriName;
     }
 
     /**

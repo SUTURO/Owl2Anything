@@ -7,17 +7,7 @@ import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.FileDocumentSource;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationValue;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
-import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
@@ -30,6 +20,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationPropertyImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLDataPropertyImpl;
 
 /**
  * The main class for converting an OWL ontology to a custom format.
@@ -93,6 +84,7 @@ public class OwlConverter {
             String naturalName = extractNaturalName(owlClass);
             String description = extractDescription(owlClass);
             List<Integer> perceptionIds = extractPerceptionId(owlClass);
+            List<String> predefinedNames = extractPredefinedNames(owlClass);
 
             // Skip "Nothing"
             if ("http://www.w3.org/2002/07/owl#Nothing".equals(owlClass.getIRI().getIRIString()))
@@ -107,6 +99,7 @@ public class OwlConverter {
                         .naturalName(naturalName)
                         .description(description)
                         .perceptionId(null)
+                        .predefinedNames(predefinedNames)
                         .build();
 
                 owlRecords.add(owlRecord);
@@ -122,6 +115,7 @@ public class OwlConverter {
                             .naturalName(naturalName)
                             .description(description)
                             .perceptionId(perceptionId)
+                            .predefinedNames(predefinedNames)
                             .build();
 
                     owlRecords.add(owlRecord);
@@ -135,6 +129,17 @@ public class OwlConverter {
         reasoner.dispose();
 
         return owlRecords;
+    }
+
+    private List<String> extractPredefinedNames(OWLClass owlClass) {
+        OWLDataProperty hasPredefinedName = new OWLDataPropertyImpl(IRI.create("http://www.ease-crc.org/ont/SUTURO.owl#hasPredefinedName"));
+        return EntitySearcher.getSuperClasses(owlClass, allOntologies.stream())
+            .filter(cls -> cls.getClassExpressionType() == ClassExpressionType.DATA_HAS_VALUE)
+            .map(cls -> (OWLDataHasValue) cls)
+            .filter(cls -> cls.getProperty().equals(hasPredefinedName))
+            .map(HasFiller::getFiller)
+            .map(OWLLiteral::getLiteral)
+            .toList();
     }
 
     /**
