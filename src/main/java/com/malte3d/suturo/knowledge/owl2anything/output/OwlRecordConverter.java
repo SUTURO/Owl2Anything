@@ -68,4 +68,8 @@ public class OwlRecordConverter {
         String restLowerCaseName = iriName.substring(1).toLowerCase(Locale.ROOT);
         return iriName.charAt(0) + restLowerCaseName;
     }
+
+    public static String toFallbackNlpFormat(OwlRecord record) {
+        return toPycramFormat(record).replace('_', ' ');
+    }
 }

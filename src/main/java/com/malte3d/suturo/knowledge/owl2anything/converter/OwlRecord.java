@@ -65,6 +65,18 @@ public class OwlRecord implements Comparable<OwlRecord> {
     }
 
     /**
+     * @return The combination of {@link #iriNamespace} and {@link #iriName}
+     * <p>
+     * Example: <pre>http://www.ease-crc.org/ont/SUTURO.owl#Apple</pre>
+     * </p>
+     */
+    @SuppressWarnings("JavadocLinkAsPlainText")
+    @NonNull
+    public String getIriLongForm() {
+        return iriNamespace + iriName;
+    }
+
+    /**
      * Can be used to sort a list of {@link OwlRecord}es by their {@link #iriName}.
      */
     @Override
