@@ -4,6 +4,8 @@ import com.malte3d.suturo.knowledge.owl2anything.converter.OwlRecord;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OwlRecordConverterTest {
@@ -24,6 +26,7 @@ class OwlRecordConverterTest {
                 .iriNamespaceShort("")
                 .naturalName("")
                 .description("")
+                .predefinedNames(List.of())
                 .build();
         assertEquals(pycramName, OwlRecordConverter.toPycramFormat(record));
     }
