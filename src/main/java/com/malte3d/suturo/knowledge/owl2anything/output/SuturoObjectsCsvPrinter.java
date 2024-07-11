@@ -27,6 +27,7 @@ public class SuturoObjectsCsvPrinter {
             "IRI ShortForm",
             "IRI Namespace",
             "Perception Id",
+            "NLP Names",
             "Description"
     };
 
@@ -46,6 +47,7 @@ public class SuturoObjectsCsvPrinter {
                         owlRecord.getIriShortForm(),
                         owlRecord.getIriNamespace(),
                         owlRecord.getPerceptionId(),
+                        String.join(",", owlRecord.getPredefinedNames()),
                         owlRecord.getDescription()
                         );
             }
