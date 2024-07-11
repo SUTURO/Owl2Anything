@@ -46,10 +46,6 @@ public class Owl2Anything {
         CramKnowRobPrinter.print(owlRecords, new File(outputDir, "cram_knowrob.txt"));
         PyCramKnowRobPrinter.print(owlRecords, new File(outputDir, "pycram_knowrob.py"));
 		PyCramRoboKudoPrinter.print(owlRecords, new File(outputDir, "pycram_robokudo.py"));
-        
-        if (starterArgs.getNlpMappingFile().isEmpty())
-            log.info("No nlp mappings file given, so no pycram_nlp.py will be generated.");
-        else
-            PyCramNlpPrinter.print(owlRecords, new File(outputDir, "pycram_nlp.py"), starterArgs.getNlpMappingFile().get());
+        PyCramNlpPrinter.print(owlRecords, new File(outputDir, "pycram_nlp.py"));
     }
 }

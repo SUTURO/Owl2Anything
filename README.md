@@ -22,7 +22,7 @@ the [SUTURO Knowledge website](https://suturo.github.io/suturo_knowledge/objects
 To use the Owl2Anything Converter, you need to run the Jar file with the following options:
 
 ```bash
-java -jar owl2anything.jar -i [input_file] -r [root_class_iri] [-m [iri_mapping_file]] [-n [iri_namespaces_file]] [-l [nlp_mapping_file]]
+java -jar owl2anything.jar -i [input_file] -r [root_class_iri] [-m [iri_mapping_file]] [-n [iri_namespaces_file]]
 ```
 
 The options are described below:
@@ -33,7 +33,6 @@ The options are described below:
   used.
 - `-n`, `--namespaces`: Path to the IRI namespaces file (optional). If not specified, the default SUTURO IRI namespaces
   will be used.
-- `-l`, `--nlp`: Path to the nlp mappings file (optional). If not specified, no nlp mappings will be generated.
 
 The IRI mapping file is a CSV file that maps (invalid) ontology IRIs to replacements. The file should have the
 following format:
@@ -50,23 +49,6 @@ following format:
 iri;namespace
 http://www.ease-crc.org/ont/SUTURO.owl#;suturo
 http://www.ease-crc.org/ont/SOMA.owl#;soma
-```
-
-The NLP mappings file is a JSON file that maps IRI suffixes to a list of nlp names.
-If one object type has no nlp mapping, it is assumed that the nlp name is the IRI suffix in lowercase with spaces between words, and a warning will be given.
-Any mapping that is not the suffix of an IRI and does not start with an underscore `_` will cause warning and will be mapped to the root class
-In case of two IRI classes that use the same name, a warning will be given and the lexically smaller class IRI will be used.
-The file should have the following format:
-
-```json
-{
-    "Trashbin":["trash bin", "trash can"],
-    "Plasticknife":["plastic knife"],
-    "Designedchair":["chair"],
-    "Cupboard":["cupboard"],
-    "Foambrick":["foam brick"],
-    "Nesquickcerealbox":[]
-}
 ```
 
 ## Contributing

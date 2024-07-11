@@ -27,13 +27,11 @@ public class StarterArgs {
     private static final String ARG_ROOT_IRI            = "root";
     private static final String ARG_IRI_MAPPING_FILE    = "mapping";
     private static final String ARG_IRI_NAMESPACES_FILE = "namespaces";
-    private static final String ARG_NLP_MAPPING_FILE    = "nlp";
 
     File   ontologyFile;
     String iriRoot;
     File   iriMappingFile;
     File   iriNamespacesFile;
-    Optional<File>   nlpMappingFile;
 
     public StarterArgs(String[] args) {
 
@@ -76,15 +74,6 @@ public class StarterArgs {
                         .build()
         );
 
-        options.addOption(
-                Option.builder()
-                        .option("l")
-                        .longOpt(ARG_NLP_MAPPING_FILE)
-                        .hasArg()
-                        .desc("Path to the nlp mapping file")
-                        .build()
-        );
-
         try {
 
             CommandLineParser parser = new DefaultParser();
@@ -102,11 +91,6 @@ public class StarterArgs {
                 iriNamespacesFile = new File(cmd.getOptionValue(ARG_IRI_NAMESPACES_FILE));
             else
                 iriNamespacesFile = new File(DEFAULT_CONFIG_DIR, "iri_namespaces_default.csv");
-
-            if(cmd.hasOption(ARG_NLP_MAPPING_FILE))
-                nlpMappingFile = Optional.of(new File(cmd.getOptionValue(ARG_NLP_MAPPING_FILE)));
-            else
-                nlpMappingFile = Optional.empty();
 
         } catch (ParseException e) {
 

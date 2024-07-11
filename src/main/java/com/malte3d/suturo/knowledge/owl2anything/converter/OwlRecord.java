@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
+import java.util.List;
+
 /**
  * Combines extracted information from an OWL Class.
  */
@@ -52,6 +54,12 @@ public class OwlRecord implements Comparable<OwlRecord> {
      * Default size for the OWL Class
      */
     Size defaultSize;
+
+    /**
+     * SUTURO predefined names, used for nlp names
+     */
+    @NonNull
+    List<String> predefinedNames;
 
     /**
      * @return The combination of {@link #iriNamespaceShort} and {@link #iriName}
