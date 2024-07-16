@@ -79,13 +79,23 @@ public class PerceptionClassesFilter {
         if (!incompleteRecords.isEmpty())
             throw new IllegalStateException("Classes without Id found: " +  generateRecordsList(incompleteRecords));
 
-        boolean isSortedAndContinuous = records.stream()
-                .mapToInt(OwlRecord::getPerceptionId)
-                .reduce((int a, int b) -> b == (a + 1) ? b : Integer.MIN_VALUE)
-                .orElse(Integer.MIN_VALUE) != Integer.MIN_VALUE;
 
-        if (!isSortedAndContinuous)
-            throw new IllegalStateException("Ids are not continuously increasing: " + generateRecordsList(records));
+        List<Integer> missingIds = new ArrayList<>();
+        int nextExpectedId = 0;
+
+        for (PrimitiveIterator.OfInt it = records.stream()
+            .mapToInt(OwlRecord::getPerceptionId).iterator(); it.hasNext(); ) {
+            int id = it.next();
+            if (id > nextExpectedId) {
+                for (int i = nextExpectedId; i < id; i++) {
+                    missingIds.add(i);
+                }
+            }
+            nextExpectedId = id+1;
+        }
+
+        if(!missingIds.isEmpty())
+            throw new IllegalStateException("Perception Ids are not continuous, missing Id(s): " + missingIds);
     }
 
     private static void checkForDuplicates(List<OwlRecord> records) {
